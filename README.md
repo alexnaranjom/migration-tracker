@@ -1,58 +1,62 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Migration Tracker
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel application that tracks the progress of migrating a legacy CodeIgniter application to Laravel. Built to manage modules, migration steps, notes, and overall progress with AI-powered analysis.
 
-## About Laravel
+## Tech Stack
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Backend:** Laravel 13, PHP 8.4
+- **Database:** SQLite
+- **Testing:** PHPUnit (feature tests)
+- **AI:** Anthropic API (Claude) for migration step suggestions
+- **Frontend:** Vue 3 (coming soon)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Track migration modules with status workflow (not started, analyzing, in progress, testing, completed)
+- Priority levels (low, medium, high, critical) for module planning
+- Migration steps checklist per module
+- Migration notes for documentation, decisions, and issue tracking
+- Dashboard API with overall progress statistics
+- AI-powered analysis that suggests specific migration steps per module
+- RESTful API with Form Request validation and proper HTTP status codes
 
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Installation
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+git clone https://github.com/alexnaranjom/migration-tracker.git
+cd migration-tracker
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate --seed
+php artisan serve
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+The app runs at `http://localhost:8000`.
 
-## Contributing
+## API Endpoints
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | /api/dashboard | Migration progress statistics |
+| GET | /api/modules | List all modules (filter: ?status=) |
+| POST | /api/modules | Create a new module |
+| GET | /api/modules/{id} | Show module with notes and steps |
+| PUT | /api/modules/{id} | Update a module |
+| DELETE | /api/modules/{id} | Delete a module |
+| PATCH | /api/modules/{id}/status | Update module status |
+| GET | /api/modules/{id}/notes | List module notes |
+| POST | /api/modules/{id}/notes | Add a note to a module |
+| POST | /api/modules/{id}/ai-analyze | AI-generated migration steps |
 
-## Code of Conduct
+## Testing
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+php artisan test
+```
 
-## Security Vulnerabilities
+10 feature tests covering CRUD operations, validation, status filtering, and dashboard statistics.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Author
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Alex Naranjo - [LinkedIn](https://www.linkedin.com/in/alex-naranjom/) - [Portfolio](https://alexnaranjom.github.io/portfolio/)
