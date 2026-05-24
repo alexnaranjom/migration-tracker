@@ -30,6 +30,9 @@ return new class extends Migration
                 'high',
                 'critical'
             ])->default('medium');
+            $table->integer('estimated_hours')->nullable();
+            $table->integer('actual_hours')->nullable();
+            $table->string('assigned_to', 100)->nullable();
             $table->timestamps();
         });
     }
