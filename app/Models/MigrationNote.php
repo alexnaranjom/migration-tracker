@@ -10,19 +10,6 @@ class MigrationNote extends Model
     /** @use HasFactory<\Database\Factories\MigrationNoteFactory> */
     use HasFactory;
 
-     $table->foreignId('module_id')
-                  ->constrained()
-                  ->onDelete('cascade');
-            $table->enum('type', [
-                'analysis',
-                'desicion',
-                'issue',
-                'progress'
-            ])->default('progress');
-            $table->text('content');
-            $table->string('author', 100)->default('System');
-
-
     protected $fillable = [
         'module_id',
         'type',
@@ -35,7 +22,7 @@ class MigrationNote extends Model
      * Inverse of hasMany.
      */
 
-    public fucntion module()
+    public function module()
     {
         return $this->belongsTo(Module::class);
     }

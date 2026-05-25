@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\MigrationNote;
+use App\Models\Module;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,7 +19,10 @@ class MigrationNoteFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'module_id'=>Module::factory(),
+            'type'=>fake()->randomElement(['analysis','decision','issue','progress']),
+            'content'=>fake()->paragraph(),
+            'author'=>fake()->name()
         ];
     }
 }

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string("target_framework")->default('Laravel');
             $table->enum('status', [    //migration status
                 'not_started',
-                "analyzing",
+                'analyzing',
                 'in_progress',
                 'testing',
                 'completed'

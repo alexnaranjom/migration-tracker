@@ -72,20 +72,19 @@ class Module extends Model
      * Accessor: calculate completion percentage of steps.
      * Usage: $module->completion_percentage
      */
-    public function getPorcentageComplete():int {
+    public function getCompletionPercentageAttribute():int {
         $total = $this->steps()->count();
         if ($total === 0) return 0;
 
-        $completed = $this->steps()->where('is_complete', true)->count();
+        $completed = $this->steps()->where('is_completed', true)->count();
         return (int) round(($completed / $total) * 100);
     }
 
     /**
      * All notes in module that an author wrote
      */
-    public function notesByAuthor($moduleId, $author) {
-        $module = Module::find($moduleId);
-        $notes = $module->notes()
+    public function notesByAuthor($author) {
+        $notes = $this->notes()
                 ->where('author', $author)
                 ->get();
         

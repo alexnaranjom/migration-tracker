@@ -18,7 +18,7 @@ return new class extends Migration
                   ->onDelete('cascade');
             $table->enum('type', [
                 'analysis',
-                'desicion',
+                'decision',
                 'issue',
                 'progress'
             ])->default('progress');
