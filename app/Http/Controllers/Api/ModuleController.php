@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreModuleRequest;
+use App\Http\Requests\UpdateModuleRequest;
 use App\Models\Module;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -37,8 +38,9 @@ class ModuleController extends Controller
         ->get();
 
         // Add completion_percentage to each module
-        $modules->each(function($module) {
-            $module->completation_porcentage =  $module->completation_porcentage;
+        $modules->each(function ($module) {
+            $percentage = $module->completion_percentage;   // Calculate
+            $module->completion_percentage = $percentage;   // Attach to JSON
         });
 
         return response()->json($modules);
@@ -55,26 +57,36 @@ class ModuleController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * GET /api/modules/{module}
+     * Show a single module with its notes and steps.
      */
-    public function show(string $id)
+    public function show(Module $module): JsonResponse
     {
-        //
+        // Eager load relationship
+        $module->load(['notes', 'steps']);
+        $percentage = $module->completion_percentage;   // Calculate
+        $module->completion_percentage = $percentage;   // Attach to JSON
+
+        return response()->json($module);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateModuleRequest $request, Module $module): JsonResponse
     {
-        //
+        $module->update($request->validated());
+
+         return response()->json($module);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Module $module): JsonResponse
     {
-        //
+         $module->delete();
+
+        return response()->json(null, 204); // 204 = No Content
     }
 }
