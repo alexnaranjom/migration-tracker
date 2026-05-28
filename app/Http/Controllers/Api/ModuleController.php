@@ -33,6 +33,7 @@ class ModuleController extends Controller
                 WHEN 'medium' THEN 3
                 WHEN 'low' THEN 4
                 ELSE 5
+            END
         ")
         ->orderBy('name')
         ->get();
@@ -88,5 +89,20 @@ class ModuleController extends Controller
          $module->delete();
 
         return response()->json(null, 204); // 204 = No Content
+    }
+
+    /**
+     * PATCH /api/modules/{module}/status
+     * Update only the status field.
+     */
+    public function updateStatus(Request $request, Module $module): JsonResponse
+    {
+        $request->validate([
+            'status' => 'required|in:not_started,analyzing,in_progress,testing,completed',
+        ]);
+
+        $module->update(['status' => $request->status]);
+
+        return response()->json($module);
     }
 }
