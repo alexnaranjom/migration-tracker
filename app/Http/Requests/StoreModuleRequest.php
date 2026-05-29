@@ -27,10 +27,10 @@ class StoreModuleRequest extends FormRequest
              'description' => 'nullable|string',
              'legacy_framework' => 'sometimes|string|max:255',
              'target_framework'=> 'sometimes|string|max:255',
-             'status' => 'sometimes|in:not_started,not_started,analyzing,in_progress,testing,completed',
-             'priority' => 'sometimes|in:low,medium,high',
-             'estimated_hours'=> 'nullable|int|min:1',
-             'actual_hours'=> 'nullable|int|min:1',
+             'status' => 'sometimes|in:not_started,analyzing,in_progress,testing,completed',
+             'priority' => 'sometimes|in:low,medium,high,critical',
+             'estimated_hours'=> 'nullable|integer|min:1',
+             'actual_hours'=> 'nullable|integer|min:1',
              'assigned_to'=> 'nullable|string|max:100'
         ];
     }

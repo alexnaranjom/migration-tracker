@@ -19,7 +19,7 @@ class ModuleFactory extends Factory
     {
         return [
             'name'=>fake()->sentence(3),
-            'description'=>fake()->paraghaph(),
+            'description'=>fake()->paragraph(),
             'legacy_framework'=>'CodeIgnitier',
             'target_framework'=>'Laravel',
             'status'=>fake()->randomElement(['not_started','analyzing','in_progress','testing','completed']),
