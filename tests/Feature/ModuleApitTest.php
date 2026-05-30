@@ -6,6 +6,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\Module;
 use Tests\TestCase;
+use App\Models\MigrationNote;
+use App\Models\MigrationStep;
 
 class ModuleApitTest extends TestCase
 {
@@ -47,5 +49,27 @@ class ModuleApitTest extends TestCase
                  ->assertJsonFragment(['name' => 'User Authentication']);
 
         $this->assertDatabaseHas('modules', ['name' => 'User Authentication']);
+    }
+
+    
+    public function test_it_validates_required_fields(): void
+    {
+        $response = $this->postJson('/api/modules', []);
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors(['name']);
+    }
+
+    public function test_it_can_show_a_module_with_relationships(): void
+    {
+        $module = Module::factory()->create();
+        MigrationNote::factory()->count(2)->create(['module_id' => $module->id]);
+        MigrationStep::factory()->count(3)->create(['module_id' => $module->id]);
+
+        $response = $this->getJson("/api/modules/{$module->id}");
+
+        $response->assertStatus(200)
+                 ->assertJsonFragment(['name' => $module->name])
+                 ->assertJsonCount(2, 'notes')
+                 ->assertJsonCount(3, 'steps');
     }
 }
